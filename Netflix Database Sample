@@ -57,7 +57,7 @@ VALUES
     ;
 
 
-How many movie titles are there in the database?
+#1. How many movie titles are there in the database?
 
 SELECT COUNT(*)
 from "netflix_titles_info"
@@ -65,7 +65,7 @@ WHERE type = 'Movie';
 
 
 
-List all movies that were added to the database, in order of when they were added (most recent first). 
+#2. List all movies that were added to the database, in order of when they were added (most recent first). 
 
 SELECT date_added, title
 From "netflix_titles_info"
@@ -74,14 +74,14 @@ ORDER BY date_added desc;
 
 
 
-List all Movies and TV Shows and order by title alphabetically. 
+#3. List all Movies and TV Shows and order by title alphabetically. 
 SELECT title
 FROM "netflix_titles_info"
 ORDER BY title asc;
 
 
 
-Using a LEFT JOIN to query who directed the movie The Starling. 
+#4. Using a LEFT JOIN to query who directed the movie The Starling. 
 SELECT title, director
 FROM "netflix_titles_info" titles 
 LEFT JOIN "netflix_people" people
@@ -91,7 +91,7 @@ WHERE title = 'The Starling';
 
 
 
-What is the oldest movie in the database and when was it released?
+#5. What is the oldest movie in the database and when was it released?
 
 SELECT title, release_year
 FROM "netflix_titles_info"
