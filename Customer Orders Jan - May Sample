@@ -80,7 +80,7 @@ WHERE length(OrderID) = 6
 AND OrderID <> 'Order ID'; 
 
 
-¡3. Which product brought in the most revenue in January and how much revenue did it bring in total
+#13. Which product brought in the most revenue in January and how much revenue did it bring in total
 Select product, Round (SUM(price*quantity) , 2) AS Revenue from BIT_DB.JanSales
 Group By product
 Order By Revenue desc
