@@ -1,0 +1,29 @@
+#For this analysis, I downloaded Spotify data relating to Taylor Swift's discography from Kaggle. I then used SQLite to query the data. 
+
+#1. Find the album with the highest average popularity. 
+Select album, ROUND(AVG(popularity), 2) As Avg_popularity from TaylorSwiftSpotify
+Group by album
+Order by Avg_popularity desc
+Limit 1;
+
+
+#2. Find the danceability of each song and the average danceability of each album. Rank the albums highest to lowest danceability. 
+Select name, album, danceability, AVG(danceability) 
+OVER (Partition BY album) 
+AS Avg_danceability 
+from TaylorSwiftSpotify
+Order by Avg_danceability desc;
+
+#3. Calculate the total length of Taylor Swift's songs released in odd-numbered years.
+SELECT SUM(LENGTH) AS total_length
+FROM taylorswiftspotify
+WHERE strftime('%Y', RELEASE_DATE) / 2 <> 0;
+
+
+--Determine the album with the highest average loudness among songs with a popularity rating above 70.
+--Find the album with the highest ratio of acoustic songs to non-acoustic songs.
+--Identify the album with the highest average energy among songs with a tempo above 120 BPM.
+--Calculate the average tempo of Taylor Swift's songs released in the month of November.
+--Determine the album with the highest average instrumentalness among songs released in even-numbered years.
+--Find the album with the highest average valence among songs shorter than 3 minutes.
+--Identify the album with the highest average speechiness among songs released in the year with the most album releases.
