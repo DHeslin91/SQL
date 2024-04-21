@@ -1,0 +1,103 @@
+# For this project, I downloaded Spotify data from Kaggle.
+# Then I created a table to insert Spotify data into.
+# Finally, I performed analytics on the data using SQL. 
+
+#Creating the table: 
+CREATE TABLE BIT_DB.Spotifydata (
+id integer PRIMARY KEY,
+artist_name varchar NOT NULL,
+track_name varchar NOT NULL,
+track_id varchar NOT NULL,
+popularity integer NOT NULL,
+danceability decimal(4,3) NOT NULL,
+energy decimal(4,3) NOT NULL,
+key integer NOT NULL,
+loudness decimal(5,3) NOT NULL,
+mode integer NOT NULL,
+speechiness decimal(5,4) NOT NULL,
+acousticness decimal(6,5) NOT NULL,
+instrumentalness text NOT NULL,
+liveness decimal(5,4) NOT NULL,
+valence decimal(4,3) NOT NULL,
+tempo decimal(6,3) NOT NULL,
+duration_ms integer NOT NULL,
+time_signature integer NOT NULL 
+)
+
+#Then I inserted the Spotify Data .csv into the table.
+
+#Next, I explored the data by answering the following questions using SQL. 
+
+
+#1. What is the average danceability by artist and track? 
+Select artist_name, Round (SUM(danceability)/count(track_name), 3)  AS Avg_Danceability from BIT_db.Spotifydata
+Group By artist_name;
+
+
+#2. Who are the top 10 artists, based on average popularity? 
+Select artist_name, (SUM(popularity)/Count(track_name))  AS Avg_popularity from BIT_DB.Spotifydata
+Group by artist_name
+Order by Avg_popularity desc
+Limit 10;
+
+
+#3. What artist released the longest song?
+Select artist_name, track_name, duration_ms from BIT_DB.Spotifydata
+Order By duration_ms desc
+Limit 1;
+
+#4. What is the average danceability for the 10 most popular songs? 
+SELECT avg(danceability) 
+FROM (SELECT danceability, popularity FROM BIT_DB.Spotifydata 
+ORDER BY popularity DESC LIMIT 10);
+
+
+#5. What artist has the highest average tempo? 
+Select artist_name, (SUM(tempo)/count(track_name)) AS Avg_Tempo from BIT_DB.Spotifydata
+Group by artist_name
+Order By Avg_Tempo desc
+Limit 1;
+
+#6. What is the most common tempo range?
+Select Count(track_name) AS total_tracks,
+CASE WHEN tempo <100 then "<100"
+WHEN tempo <120 then "100_120"
+WHEN tempo <150 then "120_150"
+ELSE "150+" 
+END tempos
+from BIT_DB.Spotifydata
+GROUP BY tempos
+Order by total_tracks desc;
+
+
+#7. What is the most common song_key?
+Select Count(track_name) AS total_tracks, song_key from BIT_DB.Spotifydata
+Group by song_key
+Order by total_tracks desc;
+
+
+#8. What was the most common song duration range?
+Select COUNT(track_name) AS total_songs,
+CASE WHEN duration_ms <200000 THEN "<200000"
+WHEN duration_ms <250000 THEN "<250000"
+ELSE ">250000"
+END song_length
+from BIT_DB.Spotifydata
+Group by song_length
+Order by total_songs desc;
+
+#9. How many songs with a popularity of more than 93 also had a dancibility value of more than 0.7?
+Select Count(track_name) as total_tracks from BIT_DB.Spotifydata
+WHERE popularity >93
+AND danceability >0.7;
+
+
+#10.How many songs with a popularity of more than or equal to 90 also had a higher than average energy value?
+Select count(track_name) from BIT_DB.Spotifydata
+WHERE popularity >= 90
+AND energy >(Select AVG(energy)from BIT_DB.Spotifydata);
+
+
+
+
+
