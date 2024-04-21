@@ -98,6 +98,19 @@ WHERE popularity >= 90
 AND energy >(Select AVG(energy)from BIT_DB.Spotifydata);
 
 
+#11. Calculate the average popularity for the artists in the Spotify data table (rounded to 2 decimal points) 
+--Then, for every artist with an average popularity of 90 or above, show their name, their average popularity, and label them as a “Top Star”
+
+With temptable AS 
+(Select s.artist_name, ROUND(AVG(s.popularity), 2) AS Avg_popularity 
+FROM Spotifydata s
+GROUP BY s.artist_name)
+
+SELECT artist_name, Avg_popularity, 'Top Star' AS tag
+from temptable
+WHERE Avg_popularity >=90
+Order by Avg_popularity desc;
+
 
 
 
